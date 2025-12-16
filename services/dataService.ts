@@ -1,5 +1,6 @@
 import { Product, User, UserRole, Order, OrderStatus, Announcement } from '../types';
 import { initializeApp } from 'firebase/app';
+import { getAnalytics } from "firebase/analytics";
 import { 
   getFirestore, 
   collection, 
@@ -17,13 +18,13 @@ import {
 
 // --- CONFIGURATION ---
 const firebaseConfig = {
-  apiKey: "AIzaSyCjkeRsHK4aorIAnzbJLZsoh_ATwRcyddg",
-  authDomain: "gen-lang-client-0685987646.firebaseapp.com",
-  projectId: "gen-lang-client-0685987646",
-  storageBucket: "gen-lang-client-0685987646.firebasestorage.app",
-  messagingSenderId: "542931685916",
-  appId: "1:542931685916:web:2378d2bcae1f76984585d9",
-  measurementId: "G-02F4PX5B9Z"
+  apiKey: "AIzaSyAbt906gauMpN1OHrA4eaWQZFBgIsPE5v4",
+  authDomain: "gen-lang-client-0207227535.firebaseapp.com",
+  projectId: "gen-lang-client-0207227535",
+  storageBucket: "gen-lang-client-0207227535.firebasestorage.app",
+  messagingSenderId: "658819309722",
+  appId: "1:658819309722:web:fc0ae390a40cfb92a77f23",
+  measurementId: "G-P4QW5KTBB4"
 };
 
 let db: Firestore | null = null;
@@ -32,6 +33,7 @@ let isDbEnabled = false;
 try {
     // Standard modular initialization
     const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
     db = getFirestore(app);
     isDbEnabled = true;
     console.log('[System] Firebase initialized successfully. Multi-user mode active.');
@@ -43,14 +45,14 @@ const KEYS = {
   USERS: 'tiam_users',
   PRODUCTS: 'tiam_products',
   ANNOUNCEMENT: 'tiam_announcement',
+  ORDERS: 'tiam_orders',
   LOCAL_ORDERS: 'tiam_orders_fallback'
 };
 
 // Valid User List
 const VALID_USERS = [
-  'Cooper', 'Dio', 'Eagle', 'Benson', 'Ice', 'Fan', 
-  'Sasa', 'Yuni', 'Gene', 'Reta', 'Jessica', 'Mina', 
-  'Jax', '中平', '中正', '民生', '公司'
+  'Alvin', 'Katie', 'Yuna', 'Sam', 'Kunkun', 
+  'Good', 'Nini', 'Zona', 'Meow', 'Gina', 'Arrietty'
 ];
 
 // Promotion Config for New Year
@@ -65,10 +67,6 @@ const INITIAL_ANNOUNCEMENT: Announcement = {
 // Raw Data Parsed
 const RAW_PRODUCTS = [
   { brand: 'EX', name: 'O2髮油', cost: 450 },
-  // ... (keeping the existing list structure, truncated for brevity in change block as requested by user instructions to keep minimal updates but here we are replacing full file content so we assume previous content is preserved if I don't paste it all? 
-  // Wait, the instruction says "Full content of file_1". I must include the full list to avoid data loss since I'm replacing the file.)
-  // Ideally I would just inject the method, but the XML format replaces the whole file. 
-  // I will use the previously provided full list.
   { brand: 'EX', name: 'O2 洗浴組', cost: 1800 },
   { brand: 'EX', name: '漂粉400g', cost: 400 },
   { brand: 'EX', name: '『活動』原辮髮45cm（18) 吋', cost: 4800 },
@@ -481,6 +479,80 @@ const RAW_PRODUCTS = [
   { brand: '樂事', name: 'S級9度色55CM', cost: 1850 },
   { brand: '樂事', name: 'S接髮16', cost: 1600 },
   { brand: '樂事', name: 'S接髮20', cost: 1650 },
+  { brand: '髮瑪', name: 'Hairmod 雲捲燙Tg1', cost: 350 },
+  { brand: '髮瑪', name: '雲捲燙 TG-S (壓貼)', cost: 380 },
+  { brand: '髮瑪', name: '雲捲冷燙（水狀）', cost: 350 },
+  { brand: '髮瑪', name: '2P直hairmod雲捲燙（2劑）乳狀', cost: 180 },
+  { brand: '髮瑪', name: '2P捲hairmod雲捲燙（2劑）液狀', cost: 180 },
+  { brand: '髮瑪', name: 'hairmod雲捲塑型燙（凝膠狀）', cost: 220 },
+  { brand: '髮瑪', name: 'Hairmod 雲捲燙Tg2', cost: 350 },
+  { brand: '髮瑪', name: 'Hairmod 雲捲Cy3', cost: 350 },
+  { brand: '髮瑪', name: 'Hairmod 雲捲冷燙一劑（一般髮質使用）', cost: 350 },
+  { brand: '髮瑪', name: 'BLONDHER PLUS 超級灰漂', cost: 1050 },
+  { brand: '髮瑪', name: 'A6鴿羽100ml', cost: 200 },
+  { brand: '髮瑪', name: 'AA8水泥100ml', cost: 200 },
+  { brand: '髮瑪', name: 'R8粉嫣100ml', cost: 200 },
+  { brand: '髮瑪', name: 'M8檀香100ml', cost: 200 },
+  { brand: '髮瑪', name: '7.1金灰80ml', cost: 200 },
+  { brand: '髮瑪', name: '5.74淺棕棕橘80ml', cost: 200 },
+  { brand: '髮瑪', name: '6.43深金銅黃80ml', cost: 200 },
+  { brand: '髮瑪', name: '6%OXY雙氧乳1000ml', cost: 300 },
+  { brand: '髮瑪', name: '9%OXY雙氧乳1000ml', cost: 300 },
+  { brand: '髮瑪', name: '11.89極淺金珍珠藍80ml', cost: 200 },
+  { brand: '髮瑪', name: 'B6澈海100ml', cost: 200 },
+  { brand: '髮瑪', name: 'G6碧柳100ml', cost: 200 },
+  { brand: '髮瑪', name: 'Argento超銀矯色膏80ml', cost: 200 },
+  { brand: '髮瑪', name: '半永久染ONICE(3)霧灰80ml', cost: 220 },
+  { brand: '髮瑪', name: '3%OXY雙氧乳1000ml', cost: 300 },
+  { brand: '髮瑪', name: '12%OXY雙氧乳1000ml', cost: 300 },
+  { brand: '髮瑪', name: '半永久染TURCHESE碧80ml', cost: 220 },
+  { brand: '髮瑪', name: 'AA6石灰100ml', cost: 200 },
+  { brand: '髮瑪', name: 'M6檜皮 100ml', cost: 200 },
+  { brand: '髮瑪', name: 'M7桃木', cost: 200 },
+  { brand: '髮瑪', name: 'B2玄武100ml', cost: 200 },
+  { brand: '髮瑪', name: 'C13極光100ml', cost: 200 },
+  { brand: '髮瑪', name: 'R7莓果100ml', cost: 200 },
+  { brand: '髮瑪', name: 'Ash岩100ml', cost: 200 },
+  { brand: '髮瑪', name: 'Blue青100ml', cost: 200 },
+  { brand: '髮瑪', name: 'White雪100ml', cost: 200 },
+  { brand: '髮瑪', name: 'Red赤100ml', cost: 200 },
+  { brand: '髮瑪', name: 'N11稻穗', cost: 200 },
+  { brand: '髮瑪', name: '5.1淺棕灰', cost: 200 },
+  { brand: '髮瑪', name: '8.21', cost: 200 },
+  { brand: '髮瑪', name: '5.17淺棕灰柚木80ml', cost: 200 },
+  { brand: '髮瑪', name: '4.87棕雷藤木80ml', cost: 200 },
+  { brand: '髮瑪', name: 'Violet靚100ml', cost: 200 },
+  { brand: '髮瑪', name: '6.87深金雷藤木', cost: 200 },
+  { brand: '髮瑪', name: 'V8丁香100ml', cost: 200 },
+  { brand: '髮瑪', name: '1.9', cost: 200 },
+  { brand: '髮瑪', name: '髮油膠100g', cost: 445 },
+  { brand: '髮瑪', name: '硬漢髮蠟 120ml', cost: 425 },
+  { brand: '髮瑪', name: '硬漢髮油(紅)', cost: 425 },
+  { brand: '髮瑪', name: 'C4冷咖100ml', cost: 200 },
+  { brand: '髮瑪', name: 'G7松煙100ml', cost: 200 },
+  { brand: '髮瑪', name: 'B7霧空100ml', cost: 200 },
+  { brand: '髮瑪', name: 'N6卡其100ml', cost: 200 },
+  { brand: '髮瑪', name: 'A9鈦鼠100ml', cost: 200 },
+  { brand: '髮瑪', name: 'A11銀牙100ml', cost: 200 },
+  { brand: '髮瑪', name: 'A4墨灰100ml', cost: 200 },
+  { brand: '髮瑪', name: '+3Warm暖100ml', cost: 200 },
+  { brand: '髮瑪', name: '＋3Cool冷100ml', cost: 200 },
+  { brand: '髮瑪', name: 'Orange橙100ml', cost: 200 },
+  { brand: '髮瑪', name: 'Yellow皇100ml', cost: 200 },
+  { brand: '髮瑪', name: 'V9藕蓮100ml', cost: 200 },
+  { brand: '髮瑪', name: 'V11玫金100ml', cost: 200 },
+  { brand: '髮瑪', name: 'Green玉100ml', cost: 200 },
+  { brand: '髮瑪', name: 'O7朱銅100ml', cost: 200 },
+  { brand: '髮瑪', name: 'M4焦茶100ml', cost: 200 },
+  { brand: '髮瑪', name: 'V6妃櫻100ml', cost: 200 },
+  { brand: '髮瑪', name: '0.66加強紅80ml', cost: 200 },
+  { brand: '髮瑪', name: '5.87淺棕雷藤木80ml', cost: 200 },
+  { brand: '髮瑪', name: '7.87金雷藤木80ml', cost: 200 },
+  { brand: '髮瑪', name: '11.1極淺金灰80ml', cost: 200 },
+  { brand: '髮瑪', name: '11.2極淺金紫80ml', cost: 200 },
+  { brand: '髮瑪', name: '11.8極淺金珍珠80ml', cost: 200 },
+  { brand: '髮瑪', name: '0.28紫藍加強色80ml', cost: 200 },
+  { brand: '髮瑪', name: '5.7柚木', cost: 200 },
   { brand: '歌薇', name: '熱力塑質霜一劑 0-強', cost: 590 },
   { brand: '歌薇', name: '凡絲蒂燙髮水一劑（0）', cost: 90 },
   { brand: '歌薇', name: '燙前保養調理劑400ml', cost: 420 },
@@ -826,81 +898,7 @@ const RAW_PRODUCTS = [
   { brand: '里歐', name: 'musumi頭皮隔離精華液150ml', cost: 480 },
   { brand: '里歐', name: '頭皮賦活泥500ml', cost: 550 },
   { brand: '雷娜塔', name: '雷娜塔5/0', cost: 190 },
-  { brand: '雷娜塔', name: '森精粹前導淨化凝膠500ml', cost: 800 },
-  { brand: '髮瑪', name: 'Hairmod 雲捲燙Tg1', cost: 350 },
-  { brand: '髮瑪', name: '雲捲燙 TG-S (壓貼)', cost: 380 },
-  { brand: '髮瑪', name: '雲捲冷燙（水狀）', cost: 350 },
-  { brand: '髮瑪', name: '2P直hairmod雲捲燙（2劑）乳狀', cost: 180 },
-  { brand: '髮瑪', name: '2P捲hairmod雲捲燙（2劑）液狀', cost: 180 },
-  { brand: '髮瑪', name: 'hairmod雲捲塑型燙（凝膠狀）', cost: 220 },
-  { brand: '髮瑪', name: 'Hairmod 雲捲燙Tg2', cost: 350 },
-  { brand: '髮瑪', name: 'Hairmod 雲捲Cy3', cost: 350 },
-  { brand: '髮瑪', name: 'Hairmod 雲捲冷燙一劑（一般髮質使用）', cost: 350 },
-  { brand: '髮瑪', name: 'BLONDHER PLUS 超級灰漂', cost: 1050 },
-  { brand: '髮瑪', name: 'A6鴿羽100ml', cost: 200 },
-  { brand: '髮瑪', name: 'AA8水泥100ml', cost: 200 },
-  { brand: '髮瑪', name: 'R8粉嫣100ml', cost: 200 },
-  { brand: '髮瑪', name: 'M8檀香100ml', cost: 200 },
-  { brand: '髮瑪', name: '7.1金灰80ml', cost: 200 },
-  { brand: '髮瑪', name: '5.74淺棕棕橘80ml', cost: 200 },
-  { brand: '髮瑪', name: '6.43深金銅黃80ml', cost: 200 },
-  { brand: '髮瑪', name: '6%OXY雙氧乳1000ml', cost: 300 },
-  { brand: '髮瑪', name: '9%OXY雙氧乳1000ml', cost: 300 },
-  { brand: '髮瑪', name: '11.89極淺金珍珠藍80ml', cost: 200 },
-  { brand: '髮瑪', name: 'B6澈海100ml', cost: 200 },
-  { brand: '髮瑪', name: 'G6碧柳100ml', cost: 200 },
-  { brand: '髮瑪', name: 'Argento超銀矯色膏80ml', cost: 200 },
-  { brand: '髮瑪', name: '半永久染ONICE(3)霧灰80ml', cost: 220 },
-  { brand: '髮瑪', name: '3%OXY雙氧乳1000ml', cost: 300 },
-  { brand: '髮瑪', name: '12%OXY雙氧乳1000ml', cost: 300 },
-  { brand: '髮瑪', name: '半永久染TURCHESE碧80ml', cost: 220 },
-  { brand: '髮瑪', name: 'AA6石灰100ml', cost: 200 },
-  { brand: '髮瑪', name: 'M6檜皮 100ml', cost: 200 },
-  { brand: '髮瑪', name: 'M7桃木', cost: 200 },
-  { brand: '髮瑪', name: 'B2玄武100ml', cost: 200 },
-  { brand: '髮瑪', name: 'C13極光100ml', cost: 200 },
-  { brand: '髮瑪', name: 'R7莓果100ml', cost: 200 },
-  { brand: '髮瑪', name: 'Ash岩100ml', cost: 200 },
-  { brand: '髮瑪', name: 'Blue青100ml', cost: 200 },
-  { brand: '髮瑪', name: 'White雪100ml', cost: 200 },
-  { brand: '髮瑪', name: 'Red赤100ml', cost: 200 },
-  { brand: '髮瑪', name: 'N11稻穗', cost: 200 },
-  { brand: '髮瑪', name: '5.1淺棕灰', cost: 200 },
-  { brand: '髮瑪', name: '8.21', cost: 200 },
-  { brand: '髮瑪', name: '5.17淺棕灰柚木80ml', cost: 200 },
-  { brand: '髮瑪', name: '4.87棕雷藤木80ml', cost: 200 },
-  { brand: '髮瑪', name: 'Violet靚100ml', cost: 200 },
-  { brand: '髮瑪', name: '6.87深金雷藤木', cost: 200 },
-  { brand: '髮瑪', name: 'V8丁香100ml', cost: 200 },
-  { brand: '髮瑪', name: '1.9', cost: 200 },
-  { brand: '髮瑪', name: '髮油膠100g', cost: 445 },
-  { brand: '髮瑪', name: '硬漢髮蠟 120ml', cost: 425 },
-  { brand: '髮瑪', name: '硬漢髮油(紅)', cost: 425 },
-  { brand: '髮瑪', name: 'C4冷咖100ml', cost: 200 },
-  { brand: '髮瑪', name: 'G7松煙100ml', cost: 200 },
-  { brand: '髮瑪', name: 'B7霧空100ml', cost: 200 },
-  { brand: '髮瑪', name: 'N6卡其100ml', cost: 200 },
-  { brand: '髮瑪', name: 'A9鈦鼠100ml', cost: 200 },
-  { brand: '髮瑪', name: 'A11銀牙100ml', cost: 200 },
-  { brand: '髮瑪', name: 'A4墨灰100ml', cost: 200 },
-  { brand: '髮瑪', name: '+3Warm暖100ml', cost: 200 },
-  { brand: '髮瑪', name: '＋3Cool冷100ml', cost: 200 },
-  { brand: '髮瑪', name: 'Orange橙100ml', cost: 200 },
-  { brand: '髮瑪', name: 'Yellow皇100ml', cost: 200 },
-  { brand: '髮瑪', name: 'V9藕蓮100ml', cost: 200 },
-  { brand: '髮瑪', name: 'V11玫金100ml', cost: 200 },
-  { brand: '髮瑪', name: 'Green玉100ml', cost: 200 },
-  { brand: '髮瑪', name: 'O7朱銅100ml', cost: 200 },
-  { brand: '髮瑪', name: 'M4焦茶100ml', cost: 200 },
-  { brand: '髮瑪', name: 'V6妃櫻100ml', cost: 200 },
-  { brand: '髮瑪', name: '0.66加強紅80ml', cost: 200 },
-  { brand: '髮瑪', name: '5.87淺棕雷藤木80ml', cost: 200 },
-  { brand: '髮瑪', name: '7.87金雷藤木80ml', cost: 200 },
-  { brand: '髮瑪', name: '11.1極淺金灰80ml', cost: 200 },
-  { brand: '髮瑪', name: '11.2極淺金紫80ml', cost: 200 },
-  { brand: '髮瑪', name: '11.8極淺金珍珠80ml', cost: 200 },
-  { brand: '髮瑪', name: '0.28紫藍加強色80ml', cost: 200 },
-  { brand: '髮瑪', name: '5.7柚木', cost: 200 }
+  { brand: '雷娜塔', name: '森精粹前導淨化凝膠500ml', cost: 800 }
 ];
 
 const INITIAL_PRODUCTS: Product[] = RAW_PRODUCTS.map((p, index) => {
@@ -945,7 +943,7 @@ export const dataService = {
     const normalizedInput = inputName.trim().toLowerCase();
     const match = VALID_USERS.find(u => u.toLowerCase() === normalizedInput);
     if (!match) return null;
-    const role = match.toLowerCase() === 'cooper' ? UserRole.ADMIN : UserRole.DESIGNER;
+    const role = match.toLowerCase() === 'yuna' ? UserRole.ADMIN : UserRole.DESIGNER;
     return { id: match, name: match, role };
   },
 
@@ -1025,10 +1023,28 @@ export const dataService = {
       const unsubscribe = onSnapshot(q, async (snapshot) => {
           if (snapshot.empty) {
               // Seed data if DB is empty
-              console.log('[System] Database empty. Seeding initial products...');
+              console.log('[System] Database empty. Checking local storage for migration...');
+              
+              let seedData = INITIAL_PRODUCTS;
+              const localData = localStorage.getItem(KEYS.PRODUCTS);
+              
+              if (localData) {
+                  try {
+                      const parsed = JSON.parse(localData);
+                      if (Array.isArray(parsed) && parsed.length > 0) {
+                          console.log('[System] Found local data. Migrating ' + parsed.length + ' products to cloud.');
+                          seedData = parsed;
+                      }
+                  } catch(e) {
+                      console.warn('[System] Failed to parse local data for migration, using default.');
+                  }
+              } else {
+                  console.log('[System] No local data found. Seeding default products...');
+              }
+
               const chunkSize = 450; // Firestore batch limit is 500
-              for (let i = 0; i < INITIAL_PRODUCTS.length; i += chunkSize) {
-                  const chunk = INITIAL_PRODUCTS.slice(i, i + chunkSize);
+              for (let i = 0; i < seedData.length; i += chunkSize) {
+                  const chunk = seedData.slice(i, i + chunkSize);
                   const batch = writeBatch(db);
                   chunk.forEach(p => {
                       // Ensure no undefined values are passed to Firestore
@@ -1169,7 +1185,29 @@ export const dataService = {
 
     // Modular Syntax
     const q = query(collection(db, "orders"), orderBy("timestamp", "desc"));
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+    const unsubscribe = onSnapshot(q, async (querySnapshot) => {
+      if (querySnapshot.empty) {
+         // Check local orders for migration
+         const localOrders = localStorage.getItem(KEYS.LOCAL_ORDERS);
+         if (localOrders) {
+             try {
+                 const parsed = JSON.parse(localOrders);
+                 if (Array.isArray(parsed) && parsed.length > 0) {
+                     console.log('[System] Migrating local orders to cloud...');
+                     const batch = writeBatch(db);
+                     parsed.forEach(o => {
+                         // Sanitize
+                         const safeOrder = JSON.parse(JSON.stringify(o));
+                         const ref = doc(db, "orders", o.id);
+                         batch.set(ref, safeOrder);
+                     });
+                     await batch.commit();
+                     console.log('[System] Orders migrated.');
+                 }
+             } catch(e) { console.error('Order migration error', e); }
+         }
+      }
+
       const orders: Order[] = [];
       querySnapshot.forEach((doc) => {
         orders.push({ id: doc.id, ...doc.data() } as Order);
