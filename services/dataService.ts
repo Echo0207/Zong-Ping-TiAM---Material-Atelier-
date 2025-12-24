@@ -51,8 +51,8 @@ const KEYS = {
 
 // Valid User List
 const VALID_USERS = [
-  'Alvin', 'Katie', 'Yuna', 'Sam', 'Kunkun', 
-  'Good', 'Nini', 'Zona', 'Meow', 'Gina', 'Arrietty'
+  'Alvin', 'Katie', 'Tiamyuna', 'Sam', 'Kunkun', 
+  'Good', 'Nini', 'Zona', 'Meow', 'Gina', 'Arrietty', 'Lily'
 ];
 
 // Promotion Config for New Year
@@ -943,7 +943,7 @@ export const dataService = {
     const normalizedInput = inputName.trim().toLowerCase();
     const match = VALID_USERS.find(u => u.toLowerCase() === normalizedInput);
     if (!match) return null;
-    const role = match.toLowerCase() === 'yuna' ? UserRole.ADMIN : UserRole.DESIGNER;
+    const role = match.toLowerCase() === 'tiamyuna' ? UserRole.ADMIN : UserRole.DESIGNER;
     return { id: match, name: match, role };
   },
 
